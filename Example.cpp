@@ -92,7 +92,7 @@ void registerCallbackHandlers() {
 
 int main(int argc, char *argv[])
 {
-	// Initialize Window
+    // Initialize Window
     initializeWindow(argc, argv, X_POS_WINDOW, Y_POS_WINDOW, WIDTH_WINDOW, HEIGHT_WINDOW, NAME_WINDOW);
 
     // register callback handlers for display and keyboard
