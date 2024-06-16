@@ -1,5 +1,4 @@
 #include <GL/freeglut.h>
-#include <windows.h>
 #include <stdio.h>
 
 
