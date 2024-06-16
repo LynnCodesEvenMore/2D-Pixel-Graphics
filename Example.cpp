@@ -9,6 +9,7 @@ const int HEIGHT_WINDOW = 400;
 const int X_POS_WINDOW = 100;
 const int Y_POS_WINDOW = 100;
 const char* NAME_WINDOW = "Graphics Test";
+const int FPS = 30;
 
 GLubyte* PixelBuffer = new GLubyte[WIDTH_WINDOW * HEIGHT_WINDOW * 3];
 int blue = 245;
@@ -70,8 +71,21 @@ void normal_keyboard_keys(unsigned char key, int x, int y) {
 	}
 }
 
+void timer(int t) {
+	
+	// Animation code
+	drawBlue(WIDTH_WINDOW, HEIGHT_WINDOW);
+
+	// Update display
+	glutPostRedisplay();
+
+	// Reset timer (one-shot timer!)
+	glutTimerFunc( 1000/FPS, timer, 0);
+
+}
+
 void initializeWindow(int argc, char* argv[], int xPos, int yPos, int width, int height, const char* name) {
-	// GLUT requires main context
+    // GLUT requires main context
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 
@@ -87,6 +101,7 @@ void registerCallbackHandlers() {
     glutDisplayFunc(display);
     glutSpecialFunc(special_keyboard_keys);
     glutKeyboardFunc(normal_keyboard_keys);
+    glutTimerFunc( 1000/FPS , timer, 0);
     return;
 }
 
@@ -95,20 +110,14 @@ int main(int argc, char *argv[])
     // Initialize Window
     initializeWindow(argc, argv, X_POS_WINDOW, Y_POS_WINDOW, WIDTH_WINDOW, HEIGHT_WINDOW, NAME_WINDOW);
 
-    // register callback handlers for display and keyboard
+    // register callback handlers for display, keyboard and timer for drawing frames
     registerCallbackHandlers();
 
     // Mainloop
     for(;;) {
 
-    // 30 Hz Frame rate & 30 Hz Program rate
-    Sleep(1000 / 30);
+    // timer will be called periodically for drawing frames
 
-    // fill Pixel-Buffer with Blue Pixels
-    drawBlue(WIDTH_WINDOW, HEIGHT_WINDOW);
-
-    // draw new Frame
-    glutPostRedisplay();
 
     // make changes visible
     glutMainLoopEvent();
@@ -118,7 +127,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
-
-
 
